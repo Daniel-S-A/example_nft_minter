@@ -1,7 +1,7 @@
 // constants
 import Web3EthContract from "web3-eth-contract";
 import Web3 from "web3";
-import SmartContract from "../../contracts/NCC.json";
+import SmartContract from "../../contracts/INK.json";
 // log
 import { fetchData } from "../data/dataActions";
 
@@ -48,10 +48,11 @@ export const connect = () => {
           method: "net_version",
         });
         // const NetworkData = await SmartContract.networks[networkId];
-        if (networkId == 137) {
+        if (networkId == 0xfa2 /*250*/) {
           const SmartContractObj = new Web3EthContract(
             SmartContract,
-            "0x827acb09a2dc20e39c9aad7f7190d9bc53534192"
+            "0xd7a185096e117607270da41ee00644f89ad5021c"
+            // "0xd7a185096e117607270da41ee00644f89ad5021c"
           );
           dispatch(
             connectSuccess({
@@ -69,7 +70,7 @@ export const connect = () => {
           });
           // Add listeners end
         } else {
-          dispatch(connectFailed("Change network to Polygon."));
+          dispatch(connectFailed("Change network to Fantom."));
         }
       } catch (err) {
         dispatch(connectFailed("Something went wrong."));

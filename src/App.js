@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Component } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { connect } from "./redux/blockchain/blockchainActions";
 import { fetchData } from "./redux/data/dataActions";
@@ -50,25 +51,37 @@ export const StyledImg = styled.img`
 `;
 
 function App() {
+  const { register, handleSubmit, errors } = useForm();
+  const onSubmit = (description) => {
+    blockchain.smartContract.methods.mintInkblot(blockchain.account).send({
+      gasLimit: "285000",
+      to: "0x637eC890572Bd475Fcc11c7Dfec1B482EcE48990",
+      // to: "0xd7a185096e117607270da41ee00644f89ad5021c",
+      from: blockchain.account,
+      value: blockchain.web3.utils.toWei((0).toString(), "ether"),
+    });
+  };
   const dispatch = useDispatch();
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
   const [feedback, setFeedback] = useState("Maybe it's your lucky day.");
   const [claimingNft, setClaimingNft] = useState(false);
 
+  //claimNFTs just gives you the amount of NFTs being minted.
   const claimNFTs = (_amount) => {
     if (_amount <= 0) {
       return;
     }
-    setFeedback("Minting your Nerdy Coder Clone...");
+    setFeedback("Minting your INKBLOT...");
     setClaimingNft(true);
     blockchain.smartContract.methods
-      .mint(blockchain.account, _amount)
+      .payToMint(blockchain.account, _amount)
       .send({
         gasLimit: "285000",
-        to: "0x827acb09a2dc20e39c9aad7f7190d9bc53534192",
+        to: "0x637eC890572Bd475Fcc11c7Dfec1B482EcE48990",
+        // to: "0xd7a185096e117607270da41ee00644f89ad5021c",
         from: blockchain.account,
-        value: blockchain.web3.utils.toWei((100 * _amount).toString(), "ether"),
+        value: blockchain.web3.utils.toWei((0 * _amount).toString(), "ether"),
       })
       .once("error", (err) => {
         console.log(err);
@@ -76,8 +89,24 @@ function App() {
         setClaimingNft(false);
       })
       .then((receipt) => {
+        blockchain.smartContract.methods.mintInkblot(blockchain.account).send({
+          gasLimit: "285000",
+          to: "0x637eC890572Bd475Fcc11c7Dfec1B482EcE48990",
+          // to: "0xd7a185096e117607270da41ee00644f89ad5021c",
+          from: blockchain.account,
+          value: blockchain.web3.utils.toWei((0).toString(), "ether"),
+        });
+        // <form onSubmit={handleSubmit(onSubmit)}>
+        //   <input
+        //     type="text"
+        //     placeholder="What do you see?"
+        //     name="inkblotDesc"
+        //     ref={register}
+        //   />
+        //   <input type="submit" />
+        // </form>;
         setFeedback(
-          "WOW, you now own a Nerdy Coder Clone. go visit Opensea.io to view it."
+          "This Inkblot is yours now. You can see it on the INKBLOTS collection at paintswap.finance"
         );
         setClaimingNft(false);
         dispatch(fetchData(blockchain.account));
@@ -100,7 +129,7 @@ function App() {
         <s.TextTitle
           style={{ textAlign: "center", fontSize: 28, fontWeight: "bold" }}
         >
-          Mint a Nerdy Coder Clone
+          Mint an Inkblot
         </s.TextTitle>
         <s.SpacerMedium />
         <ResponsiveWrapper flex={1} style={{ padding: 24 }}>
@@ -110,7 +139,7 @@ function App() {
             <s.TextTitle
               style={{ textAlign: "center", fontSize: 35, fontWeight: "bold" }}
             >
-              {data.totalSupply}/1000
+              {data.totalSupply}/500
             </s.TextTitle>
           </s.Container>
           <s.SpacerMedium />
@@ -127,10 +156,12 @@ function App() {
                 </s.TextTitle>
                 <s.SpacerSmall />
                 <s.TextDescription style={{ textAlign: "center" }}>
-                  You can still find Nerdy Coder Clones on{" "}
+                  You can still find Inkblots on{"https://paintswap.finance"}
                   <a
                     target={"_blank"}
-                    href={"https://opensea.io/collection/nerdy-coder-clones"}
+                    href={
+                      "https://https://paintswap.finance/marketplace/collections/0xd1e6a0f7ee3eb0b7a6a639663afca9d8b3143ba7"
+                    }
                   >
                     Opensea.io
                   </a>
@@ -139,7 +170,7 @@ function App() {
             ) : (
               <>
                 <s.TextTitle style={{ textAlign: "center" }}>
-                  1 NCC costs 100 MATIC.
+                  1 Inkblot costs 100 FTM.
                 </s.TextTitle>
                 <s.SpacerXSmall />
                 <s.TextDescription style={{ textAlign: "center" }}>
@@ -154,7 +185,7 @@ function App() {
                 blockchain.smartContract === null ? (
                   <s.Container ai={"center"} jc={"center"}>
                     <s.TextDescription style={{ textAlign: "center" }}>
-                      Connect to the Polygon network
+                      Connect to the Fantom Opera Network
                     </s.TextDescription>
                     <s.SpacerSmall />
                     <StyledButton
@@ -196,9 +227,9 @@ function App() {
         <s.SpacerSmall />
         <s.Container jc={"center"} ai={"center"} style={{ width: "70%" }}>
           <s.TextDescription style={{ textAlign: "center", fontSize: 9 }}>
-            Please make sure you are connected to the right network (Polygon
-            Mainnet) and the correct address. Please note: Once you make the
-            purchase, you cannot undo this action.
+            Please make sure you are connected to the right network (Fantom
+            Opera Network) and the correct address. Please note: Once you make
+            the purchase, you cannot undo this action.
           </s.TextDescription>
           <s.SpacerSmall />
           <s.TextDescription style={{ textAlign: "center", fontSize: 9 }}>

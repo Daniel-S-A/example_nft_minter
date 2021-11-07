@@ -1,0 +1,7 @@
+<svg id="bt_close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="icon_close" transform="translate(-326 -120)">
+    <line id="Line_5" data-name="Line 5" x2="12" transform="translate(334.136 128.136) rotate(45)" fill="none" stroke="#eff4ff" stroke-linecap="round" stroke-width="2"/>
+    <line id="Line_6" data-name="Line 6" x2="12" transform="translate(342.621 128.136) rotate(135)" fill="none" stroke="#eff4ff" stroke-linecap="round" stroke-width="2"/>
+  </g>
+  <rect id="area" width="24" height="24" fill="none"/>
+</svg>
